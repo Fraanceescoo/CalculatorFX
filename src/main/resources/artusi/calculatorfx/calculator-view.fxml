@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="artusi.calculatorfx.CalculatorController">
+   <children>
+      <Label fx:id="result" alignment="TOP_LEFT" contentDisplay="TOP" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="btnDeleteAll" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="CE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="C">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnPow" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="^">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnDiv" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="/">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="btn7" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="7" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn8" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="8" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn9" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="9" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnMulti" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="×">
+               <font>
+                  <Font name="System Bold" size="29.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="btn4" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="4" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn5" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="5" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn6" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="6" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnSub" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="-">
+               <font>
+                  <Font name="System Bold" size="34.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="btn1" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="1" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn2" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="2" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn3" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="3" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="+">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Button fx:id="btnOpenBracket" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="(">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Button>
+            <Button fx:id="btn0" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: red;" text="0" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCloseBracket" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text=")">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnEquals" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="=">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
