@@ -1,0 +1,184 @@
+package model;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class Espressione {
+    private String inputExpr;
+    private ArrayList tokensExpr;
+    private ArrayList rpnExpr;
+    Frazione risultato;
+
+    public Espressione(String inputExpr) {
+        this.inputExpr = inputExpr;
+        tokensExpr = new ArrayList();
+    }
+
+    public void scanner() {
+        long numero = 0;
+        boolean inLetturaNumero = false;
+        for (char carattere : inputExpr.toCharArray()) {
+            if (!inLetturaNumero) {
+                switch (carattere) {
+                    case '(':
+                        tokensExpr.add(Parentesi.PARENTESI_APERTA);
+                        break;
+                    case ')':
+                        tokensExpr.add(Parentesi.PARENTESI_CHIUSA);
+                        break;
+                    case '^':
+                        tokensExpr.add(Operatore.POW);
+                        break;
+                    case '+':
+                        tokensExpr.add(Operatore.ADD);
+                        break;
+                    case '-':
+                        tokensExpr.add(Operatore.SUB);
+                        break;
+                    case '*':
+                        tokensExpr.add(Operatore.MULT);
+                        break;
+                    case '/':
+                        tokensExpr.add(Operatore.DIV);
+                        break;
+                    case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+                        numero = Integer.valueOf(Character.toString(carattere));
+                        inLetturaNumero = true;
+                        break;
+                    default:
+                        //TODO lanciare eccezione carattere non valido
+
+                }
+            } else {
+                switch (carattere) {
+                    case '(':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Parentesi.PARENTESI_APERTA);
+                        break;
+                    case ')':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Parentesi.PARENTESI_CHIUSA);
+                        break;
+                    case '^':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Operatore.POW);
+                        break;
+                    case '+':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Operatore.ADD);
+                        break;
+                    case '-':
+                        tokensExpr.add(Operatore.SUB);
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        break;
+                    case '*':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Operatore.MULT);
+                        break;
+                    case '/':
+                        inLetturaNumero = false;
+                        tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Operatore.DIV);
+                        break;
+                    case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+                        numero *= 10;
+                        numero += Integer.valueOf(Character.toString(carattere));
+                        inLetturaNumero = true;
+                    default:
+                        //TODO throw new EspressioneException("Espressione non valida");
+                }
+            }
+
+
+        }
+        if (inLetturaNumero)
+            tokensExpr.add(new Frazione(numero, 1));
+    }
+
+    public ArrayList getTokensExpr() {
+        return tokensExpr;
+    }
+
+    public void setTokensExpr(ArrayList tokensExpr) {
+        this.tokensExpr = tokensExpr;
+    }
+
+    public void calcRPN() {
+        ArrayDeque<Frazione> stackOperandi = new ArrayDeque<>();
+        Frazione operando1, operando2, risultatoParziale = null;
+        for (Object token : tokensExpr) {
+            if (token instanceof Frazione) {
+                stackOperandi.push((Frazione) token);
+            } else {
+                operando2 = stackOperandi.pop();
+                operando1 = stackOperandi.pop();
+                try {
+                    switch ((Operatore) token) {
+                        case Operatore.ADD:
+                            risultatoParziale = operando1.add(operando2);
+                            break;
+                        case Operatore.SUB:
+                            risultatoParziale = operando1.sub(operando2);
+                            break;
+                        case Operatore.DIV:
+                            risultatoParziale = operando1.div(operando2);
+                            break;
+                        case Operatore.MULT:
+                            risultatoParziale = operando1.mult(operando2);
+                            break;
+                        case Operatore.POW:
+                            risultatoParziale = operando1.pow(operando2);
+                            break;
+                    }
+                } catch (ArithmeticException ex) {
+                    throw ex;
+                }
+
+                stackOperandi.push(risultatoParziale);
+            }
+        }
+        risultato = stackOperandi.pop();
+    }
+
+    public void shuntingYard() throws EspressioneException {
+        Stack<Object> opStack = new Stack<>();
+        for (Object token : tokensExpr) {
+            if (token instanceof Frazione) {
+                rpnExpr.add(token);
+            } else if (token instanceof Operatore op) {
+                while (!opStack.isEmpty() && opStack.peek() instanceof Operatore topOp) {
+                    if (topOp.compare(op)) {
+                        rpnExpr.add(opStack.pop());
+                    } else {
+                        break;
+                    }
+                }
+                opStack.push(op);
+            } else if (token.equals(Parentesi.PARENTESI_APERTA)) {
+                opStack.push(token);
+            } else if (token.equals(Parentesi.PARENTESI_CHIUSA)) {
+                while (!opStack.isEmpty() && opStack.peek().equals(Parentesi.PARENTESI_APERTA)) {
+                    rpnExpr.add(opStack);
+                }
+                if (opStack.isEmpty()){
+                    throw new EspressioneException("errore parentesi");
+                }
+                opStack.pop();
+            }
+        }
+        while(!opStack.isEmpty()){
+            Object obj = opStack.pop();
+            if (obj instanceof Parentesi){
+                throw new EspressioneException("errore");
+            }
+            rpnExpr.add(obj);
+        }
+    }
+}
