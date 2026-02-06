@@ -44,7 +44,7 @@ public class CalculatorController {
 
     @FXML
     public void addChar(String s) {
-        if (result.getText().isEmpty()) result.setText("");
+        //TODO add results options
         result.setText(result.getText() + s);
     }
 
@@ -57,6 +57,7 @@ public class CalculatorController {
                 || lastChar == btnPow.getText().charAt(0) || lastChar == btnOpenBracket.getText().charAt(0)
                 || lastChar == btnCloseBracket.getText().charAt(0);
     }
+
     @FXML
     public void equals() {
         addChar(btnEquals.getText());
@@ -66,6 +67,12 @@ public class CalculatorController {
             result.setText("ERRORE");
         }
     }
+
+    @FXML
+    public void clearOutput() {
+        result.setText("");
+    }
+
     @FXML
     public void keyPressed(ActionEvent event) {
         if (event.getSource() == btnDeleteAll) {
@@ -111,36 +118,31 @@ public class CalculatorController {
         addChar(((Button) event.getSource()).getText());
     }
 
-    @FXML
-    public void clearOutput() {
-        result.setText("");
-    }
-
     public void add() {
-        if (!isPresent()) result.setText(result.getText() + btnAdd.getText());
+        if (!isPresent()) addChar(btnAdd.getText());
     }
 
     public void sub() {
-        if (!isPresent()) result.setText(result.getText() + btnSub.getText());
+        if (!isPresent()) addChar(btnSub.getText());
     }
 
     public void multi() {
-        if (!isPresent()) result.setText(result.getText() + btnMulti.getText());
+        if (!isPresent()) addChar(btnMulti.getText());
     }
 
     public void div() {
-        if (!isPresent()) result.setText(result.getText() + btnDiv.getText());
+        if (!isPresent()) addChar(btnDiv.getText());
     }
 
     public void pow() {
-        if (!isPresent()) result.setText(result.getText() + btnPow.getText());
+        if (!isPresent()) addChar(btnPow.getText());
     }
 
     public void openBrackets() {
-        if (!isPresent()) result.setText(result.getText() + btnOpenBracket.getText());
+        if (!isPresent()) addChar(btnOpenBracket.getText());
     }
 
     public void closeBrackets() {
-        if (!isPresent()) result.setText(result.getText() + btnCloseBracket.getText());
+        if (!isPresent()) addChar(btnCloseBracket.getText());
     }
 }
