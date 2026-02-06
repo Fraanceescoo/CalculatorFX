@@ -5,17 +5,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Espressione {
-    private String inputExpr;
-    private ArrayList tokensExpr;
-    private ArrayList rpnExpr;
-    Frazione risultato;
+    private static ArrayList<Object> tokensExpr = new ArrayList<>();
+    private static ArrayList<Object> rpnExpr = new ArrayList<>();
 
-    public Espressione(String inputExpr) {
-        this.inputExpr = inputExpr;
-        tokensExpr = new ArrayList();
-    }
-
-    public void scanner() {
+    private static void scanner(String inputExpr) {
         long numero = 0;
         boolean inLetturaNumero = false;
         for (char carattere : inputExpr.toCharArray()) {
@@ -73,9 +66,9 @@ public class Espressione {
                         tokensExpr.add(Operatore.ADD);
                         break;
                     case '-':
-                        tokensExpr.add(Operatore.SUB);
                         inLetturaNumero = false;
                         tokensExpr.add(new Frazione(numero, 1));
+                        tokensExpr.add(Operatore.SUB);
                         break;
                     case '*':
                         inLetturaNumero = false;
@@ -102,18 +95,14 @@ public class Espressione {
             tokensExpr.add(new Frazione(numero, 1));
     }
 
-    public ArrayList getTokensExpr() {
+    private ArrayList getTokensExpr() {
         return tokensExpr;
     }
 
-    public void setTokensExpr(ArrayList tokensExpr) {
-        this.tokensExpr = tokensExpr;
-    }
-
-    public void calcRPN() {
+    private static Frazione calcRPN() {
         ArrayDeque<Frazione> stackOperandi = new ArrayDeque<>();
         Frazione operando1, operando2, risultatoParziale = null;
-        for (Object token : tokensExpr) {
+        for (Object token : rpnExpr) {
             if (token instanceof Frazione) {
                 stackOperandi.push((Frazione) token);
             } else {
@@ -144,10 +133,10 @@ public class Espressione {
                 stackOperandi.push(risultatoParziale);
             }
         }
-        risultato = stackOperandi.pop();
+        return stackOperandi.pop();
     }
 
-    public void shuntingYard() throws EspressioneException {
+    private static void shuntingYard() throws EspressioneException {
         Stack<Object> opStack = new Stack<>();
         for (Object token : tokensExpr) {
             if (token instanceof Frazione) {
@@ -180,5 +169,13 @@ public class Espressione {
             }
             rpnExpr.add(obj);
         }
+    }
+
+    public static Frazione calculate(String inputExpr) throws EspressioneException{
+        tokensExpr.clear();
+        rpnExpr.clear();
+        scanner(inputExpr);
+        shuntingYard();
+        return calcRPN();
     }
 }

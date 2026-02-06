@@ -1,10 +1,10 @@
-import model.Espressione;
-import model.Frazione;
-
-import java.util.Scanner;
-
-public class Test {
-    static void main() {
+//import model.Espressione;
+//import model.Frazione;
+//
+//import java.util.Scanner;
+//
+//public class Test {
+//    static void main() {
 //        Frazione f1 = null, f2 = null, exponent;
 //        Scanner sc = new Scanner(System.in);
 //        long n1, n2, d1, d2;
@@ -43,10 +43,10 @@ public class Test {
 //        } catch (ArithmeticException e) {
 //            System.out.println(e.getMessage());
 //        }
-        Espressione exp = new Espressione("(22/31-17/12)^2");
-        exp.scanner();
-        System.out.println(exp.getTokensExpr());
-
-    }
-
-}
+//        Espressione exp = new Espressione("(22/31-17/12)^2");
+//        exp.scanner();
+//        System.out.println(exp.getTokensExpr());
+//
+//    }
+//
+//}

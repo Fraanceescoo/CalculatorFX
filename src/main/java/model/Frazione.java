@@ -28,6 +28,7 @@ public class Frazione {
 
     @Override
     public String toString(){
+        if (denominatore == 1) return String.valueOf(numeratore);
         return "(" + numeratore + "/" + denominatore + ")";
     }
 
