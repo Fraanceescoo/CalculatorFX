@@ -6,10 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import model.Espressione;
 import model.EspressioneException;
-import model.Frazione;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 public class CalculatorController {
     @FXML
@@ -36,35 +32,32 @@ public class CalculatorController {
     private Button btnCloseBracket;
 
     @FXML
+    public void keyPressed(ActionEvent event) {
+        Button btn = (Button) event.getSource();
+        if (btn == btnDeleteAll) { clearOutput(); return; }
+        if (btn == btnDelete) { removeLast(); return; }
+        if (btn == btnEquals) { equals(); return; }
+        if (btn == btnAdd || btn == btnSub || btn == btnMulti || btn == btnDiv || btn == btnPow) {
+            if (!isLastOperator() && !result.getText().isEmpty()) {
+                addChar(btn.getText());
+            }
+            return;
+        }
+        if (btn == btnOpenBracket) {
+            openBrackets();
+            return;
+        }
+        if (btn == btnCloseBracket) {
+            closeBrackets();
+            return;
+        }
+        addChar(btn.getText());
+    }
+
+    @FXML
     public void removeLast() {
         if (!result.getText().isEmpty()) {
             result.setText(result.getText().substring(0, result.getText().length() - 1));
-        }
-    }
-
-    @FXML
-    public void addChar(String s) {
-        //TODO add results options
-        result.setText(result.getText() + s);
-    }
-
-    public boolean isPresent() {
-        String text = result.getText();
-        char lastChar = 0;
-        if (!text.isEmpty()) lastChar = text.charAt(text.length() - 1);
-        return lastChar == btnAdd.getText().charAt(0) || lastChar == btnDiv.getText().charAt(0)
-                || lastChar == btnSub.getText().charAt(0) || lastChar == btnMulti.getText().charAt(0)
-                || lastChar == btnPow.getText().charAt(0) || lastChar == btnOpenBracket.getText().charAt(0)
-                || lastChar == btnCloseBracket.getText().charAt(0);
-    }
-
-    @FXML
-    public void equals() {
-        addChar(btnEquals.getText());
-        try {
-            addChar(Espressione.calculate(result.getText()).toString());
-        } catch (EspressioneException error) {
-            result.setText("ERRORE");
         }
     }
 
@@ -74,75 +67,60 @@ public class CalculatorController {
     }
 
     @FXML
-    public void keyPressed(ActionEvent event) {
-        if (event.getSource() == btnDeleteAll) {
-            clearOutput();
-            return;
-        }
-        if (event.getSource() == btnDelete) {
-            removeLast();
-            return;
-        }
-        if (event.getSource() == btnAdd) {
-            add();
-            return;
-        }
-        if (event.getSource() == btnSub) {
-            sub();
-            return;
-        }
-        if (event.getSource() == btnMulti) {
-            multi();
-            return;
-        }
-        if (event.getSource() == btnDiv) {
-            div();
-            return;
-        }
-        if (event.getSource() == btnPow) {
-            pow();
-            return;
-        }
-        if (event.getSource() == btnEquals) {
-            equals();
-            return;
-        }
-        if (event.getSource() == btnOpenBracket) {
-            openBrackets();
-            return;
-        }
-        if (event.getSource() == btnCloseBracket) {
-            closeBrackets();
-            return;
-        }
-        addChar(((Button) event.getSource()).getText());
+    public void addChar(String s) {
+        result.setText(result.getText() + s);
     }
 
+    public boolean isLastOperator() {
+        String text = result.getText();
+        if (text.isEmpty()) return false;
+
+        char lastChar = text.charAt(text.length() - 1);
+        return lastChar == btnAdd.getText().charAt(0) ||
+                lastChar == btnSub.getText().charAt(0) ||
+                lastChar == btnMulti.getText().charAt(0) ||
+                lastChar == btnDiv.getText().charAt(0) ||
+                lastChar == btnPow.getText().charAt(0);
+    }
+
+    public void equals() {
+        addChar(btnEquals.getText());
+        try {
+            addChar(Espressione.calculate(result.getText()).toString());
+        } catch (EspressioneException error) {
+            result.setText("ERRORE");
+        }
+    }
+
+
+
     public void add() {
-        if (!isPresent()) addChar(btnAdd.getText());
+        if (!isLastOperator()) addChar(btnAdd.getText());
     }
 
     public void sub() {
-        if (!isPresent()) addChar(btnSub.getText());
+        if (!isLastOperator()) addChar(btnSub.getText());
     }
 
     public void multi() {
-        if (!isPresent()) addChar(btnMulti.getText());
+        if (!isLastOperator()) addChar(btnMulti.getText());
     }
 
     public void div() {
-        if (!isPresent()) addChar(btnDiv.getText());
+        if (!isLastOperator()) addChar(btnDiv.getText());
     }
 
     public void pow() {
-        if (!isPresent()) addChar(btnPow.getText());
+        if (!isLastOperator()) addChar(btnPow.getText());
     }
 
     public void openBrackets() {
-        if (!isPresent()) addChar(btnOpenBracket.getText());
+        addChar(btnOpenBracket.getText());
     }
 
     public void closeBrackets() {
-        if (!isPresent()) addChar(btnCloseBracket.getText());
+        if (!isLastOperator() && !result.getText().isEmpty()) {
+            addChar(btnCloseBracket.getText());
+        }
     }
 }
