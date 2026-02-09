@@ -8,7 +8,7 @@ public class Espressione {
     private static ArrayList<Object> tokensExpr = new ArrayList<>();
     private static ArrayList<Object> rpnExpr = new ArrayList<>();
 
-    private static void scanner(String inputExpr) {
+    private static void scanner(String inputExpr) throws EspressioneException {
         long numero = 0;
         boolean inLetturaNumero = false;
         for (char carattere : inputExpr.toCharArray()) {
@@ -40,7 +40,7 @@ public class Espressione {
                         inLetturaNumero = true;
                         break;
                     default:
-                        //TODO lanciare eccezione carattere non valido
+//                        throw new EspressioneException("Carattere non valido");
 
                 }
             } else {
@@ -85,18 +85,12 @@ public class Espressione {
                         numero += Integer.valueOf(Character.toString(carattere));
                         inLetturaNumero = true;
                     default:
-                        //TODO throw new EspressioneException("Espressione non valida");
+//                        throw new EspressioneException("Espressione non valida");
                 }
             }
-
-
         }
         if (inLetturaNumero)
             tokensExpr.add(new Frazione(numero, 1));
-    }
-
-    private ArrayList getTokensExpr() {
-        return tokensExpr;
     }
 
     private static Frazione calcRPN() {
@@ -126,8 +120,8 @@ public class Espressione {
                             risultatoParziale = operando1.pow(operando2);
                             break;
                     }
-                } catch (ArithmeticException ex) {
-                    throw ex;
+                } catch (ArithmeticException errore) {
+                    throw new ArithmeticException("errore operatore");
                 }
 
                 stackOperandi.push(risultatoParziale);
@@ -142,36 +136,59 @@ public class Espressione {
             if (token instanceof Frazione) {
                 rpnExpr.add(token);
             } else if (token instanceof Operatore op) {
-                while (!opStack.isEmpty() && opStack.peek() instanceof Operatore topOp) {
-                    if (topOp.compare(op)) {
-                        rpnExpr.add(opStack.pop());
+//                while (!opStack.isEmpty() && opStack.peek() instanceof Operatore topOp) {
+//                    if (topOp.compare(op)) {
+//                        rpnExpr.add(opStack.pop());
+//                    } else {
+//                        break;
+//                    }
+//                }
+                Operatore op1;
+                for (Object obj : opStack) {
+                    if (obj instanceof Operatore) {
+                        op1 = (Operatore) obj;
+                        if (op1.getValore() > ((Operatore) token).getValore()) {
+                            rpnExpr.add(opStack.pop());
+                        }
                     } else {
                         break;
                     }
                 }
                 opStack.push(op);
+                System.out.println(rpnExpr);
             } else if (token.equals(Parentesi.PARENTESI_APERTA)) {
                 opStack.push(token);
             } else if (token.equals(Parentesi.PARENTESI_CHIUSA)) {
-                while (!opStack.isEmpty() && opStack.peek().equals(Parentesi.PARENTESI_APERTA)) {
-                    rpnExpr.add(opStack);
-                }
-                if (opStack.isEmpty()){
-                    throw new EspressioneException("errore parentesi");
+                for (Object obj1 : opStack){
+                    if (obj1 != Parentesi.PARENTESI_APERTA){
+                        rpnExpr.add(opStack.pop());
+                    }else{
+                        break;
+                    }
                 }
                 opStack.pop();
+//                while (!opStack.isEmpty() && opStack.peek().equals(Parentesi.PARENTESI_APERTA)) {
+//                    rpnExpr.add(opStack);
+//                }
+                if (opStack.isEmpty()) {
+                    throw new EspressioneException("errore parentesi");
+                }
+                //TODO
+                opStack.pop();
+                System.out.println(rpnExpr);
             }
         }
-        while(!opStack.isEmpty()){
+        while (!opStack.isEmpty()) {
             Object obj = opStack.pop();
-            if (obj instanceof Parentesi){
-                throw new EspressioneException("errore");
+            if (obj instanceof Parentesi) {
+                throw new EspressioneException("Errore");
             }
             rpnExpr.add(obj);
         }
+        System.out.println(rpnExpr);
     }
 
-    public static Frazione calculate(String inputExpr) throws EspressioneException{
+    public static Frazione calculate(String inputExpr) throws EspressioneException {
         tokensExpr.clear();
         rpnExpr.clear();
         scanner(inputExpr);

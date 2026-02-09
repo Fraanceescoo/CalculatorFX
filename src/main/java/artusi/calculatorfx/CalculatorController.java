@@ -9,7 +9,7 @@ import model.EspressioneException;
 
 public class CalculatorController {
     @FXML
-    private Label result;
+    public Label result;
     @FXML
     private Button btnDeleteAll;
     @FXML
@@ -87,8 +87,8 @@ public class CalculatorController {
         addChar(btnEquals.getText());
         try {
             addChar(Espressione.calculate(result.getText()).toString());
-        } catch (EspressioneException error) {
-            result.setText("ERRORE");
+        } catch (EspressioneException errore) {
+            result.setText(errore.getMessage());
         }
     }
 

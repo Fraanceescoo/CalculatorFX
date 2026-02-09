@@ -52,9 +52,9 @@
                   <Font size="22.0" />
                </font>
             </Button>
-            <Button fx:id="btnMulti" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="×">
+            <Button fx:id="btnMulti" mnemonicParsing="false" onAction="#keyPressed" prefHeight="80.0" prefWidth="80.0" style="-fx-border-color: black;" text="*" textAlignment="RIGHT">
                <font>
-                  <Font name="System Bold" size="29.0" />
+                  <Font name="System Bold" size="37.0" />
                </font>
             </Button>
          </children>

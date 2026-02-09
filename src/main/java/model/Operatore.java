@@ -14,6 +14,10 @@ public enum Operatore {
         return Character.toString(simbolo);
     }
 
+    public int getValore() {
+        return valore;
+    }
+
     boolean compare(Operatore op){
         return valore > op.valore;
     }
