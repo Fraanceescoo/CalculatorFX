@@ -92,8 +92,6 @@ public class CalculatorController {
         }
     }
 
-
-
     public void add() {
         if (!isLastOperator()) addChar(btnAdd.getText());
     }

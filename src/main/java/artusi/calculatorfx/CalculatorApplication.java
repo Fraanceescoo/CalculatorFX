@@ -12,14 +12,13 @@ public class CalculatorApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CalculatorApplication.class.getResource("calculator-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 670);
-        CalculatorController controller = new CalculatorController();
+        CalculatorController controller = fxmlLoader.getController();
         stage.setTitle("Calcolatrice");
         stage.setScene(scene);
         stage.show();
-
-
         scene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
+                case ENTER -> controller.equals();
                 case ESCAPE -> controller.clearOutput();
                 case BACK_SPACE -> controller.removeLast();
                 case OPEN_BRACKET -> controller.addChar("(");
@@ -41,7 +40,6 @@ public class CalculatorApplication extends Application {
             };
         });
     }
-
     public static void main(String[] args) {
         launch();
     }
