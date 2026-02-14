@@ -3,6 +3,7 @@ package artusi.calculatorfx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class CalculatorApplication extends Application {
         stage.show();
         scene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
-                case ENTER -> controller.equals();
+                case SHIFT /*ENTER*/ -> controller.equals();
                 case ESCAPE -> controller.clearOutput();
                 case BACK_SPACE -> controller.removeLast();
                 case OPEN_BRACKET -> controller.addChar("(");

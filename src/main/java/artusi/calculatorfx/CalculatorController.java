@@ -68,6 +68,7 @@ public class CalculatorController {
 
     @FXML
     public void addChar(String s) {
+
         result.setText(result.getText() + s);
     }
 
@@ -86,7 +87,9 @@ public class CalculatorController {
     public void equals() {
         addChar(btnEquals.getText());
         try {
-            addChar(Espressione.calculate(result.getText()).toString());
+            String output = result.getText();
+            clearOutput();
+            addChar(Espressione.calculate(output).toString());
         } catch (EspressioneException errore) {
             result.setText(errore.getMessage());
         }
